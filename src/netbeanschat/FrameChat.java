@@ -56,6 +56,8 @@ public class FrameChat extends javax.swing.JFrame implements Runnable {
         JList list = new JList(nameList);
         list.setCellRenderer(new MarioListRenderer());
 
+        
+        //Taken from https://stackoverflow.com/questions/4344682/double-click-event-on-jlist-element
         list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList) evt.getSource();
@@ -86,7 +88,6 @@ public class FrameChat extends javax.swing.JFrame implements Runnable {
         JScrollPane scroll = new JScrollPane(list);
         scroll.setPreferredSize(new Dimension(180, 500));
 
-        
         frameEmoticon.add(scroll);
         frameEmoticon.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameEmoticon.pack();
@@ -306,7 +307,19 @@ public class FrameChat extends javax.swing.JFrame implements Runnable {
 
     private void jBshowemoticonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBshowemoticonActionPerformed
 
-      frameEmoticon.setVisible(true);
+       boolean emoFrameIsActive = false;
+      if (jBshowemoticon.getText().equals("SHOW EMOTICON")) {
+      
+          frameEmoticon.setVisible(true);
+          jBshowemoticon.setText("HIDE EMOTICON");
+          emoFrameIsActive = true;
+         
+      }
+     
+      if (!emoFrameIsActive) {
+          frameEmoticon.setVisible(false);
+          jBshowemoticon.setText("SHOW EMOTICON");
+      }
 
     }//GEN-LAST:event_jBshowemoticonActionPerformed
 
@@ -321,6 +334,7 @@ public class FrameChat extends javax.swing.JFrame implements Runnable {
             serverWriter = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
             jBon.setText("DISCONNECT");
 
+            this.setTitle("CONNECTED AS : " + jTusername.getText());
             currentUser = "Client";
 
         } catch (UnknownHostException e) {
